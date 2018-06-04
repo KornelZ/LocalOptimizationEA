@@ -40,7 +40,7 @@ def random_search(fun, lbounds, ubounds, budget):
 				res = scipy.optimize.minimize(fun, T_r[p], args=(), method='BFGS', jac=None, tol=None, callback=None, options={'disp': False, 'maxiter': local_optimizer_num})
 				X = [res.x if x==T_r[p] else x for x in X]
 		population_number = population_number + 1		
-		result = sorted(X, key=fun)	
+	result = sorted(X, key=fun)	
     return result[0]
 
 
