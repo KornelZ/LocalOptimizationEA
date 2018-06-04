@@ -55,8 +55,7 @@ except NameError: pass
 
 from cocoex import default_observers  # see cocoex.__init__.py
 from cocoex.utilities import ObserverOptions, ShortInfo, ascetime, print_flush
-from cocoex.solvers import random_search
-
+from evolutionary_algorithm import random_search
 def default_observer_options(budget_=None, suite_name_=None, current_batch_=None):
     """return defaults computed from input parameters or current global vars
     """
