@@ -8,6 +8,7 @@ def random_search(fun, lbounds, ubounds, budget):
     """Efficient implementation of uniform random search between
     `lbounds` and `ubounds`
     """
+    print("My algorithm")
     population_size = 100
     population_limit = 200
     tournament_size = 15
@@ -26,7 +27,7 @@ def random_search(fun, lbounds, ubounds, budget):
 		for j in range(dim):
 			x.append(np.random.rand(lbounds[j], ubounds[j]))
 		X.append(x)
-    while budget > 0 && population_number < population_limit:
+    while budget > 0 and population_number < population_limit:
 		for i in range(tournament_number)
 			T =[]
 			for j in range(tournament_size):
