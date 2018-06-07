@@ -55,7 +55,7 @@ except NameError: pass
 
 from cocoex import default_observers  # see cocoex.__init__.py
 from cocoex.utilities import ObserverOptions, ShortInfo, ascetime, print_flush
-from evolutionary_algorithm import random_search
+from evolutionary_algorithm import *
 def default_observer_options(budget_=None, suite_name_=None, current_batch_=None):
     """return defaults computed from input parameters or current global vars
     """
@@ -255,6 +255,93 @@ def main(budget=budget,
           '    cocopp.main("%s") \n'
           'from a python shell' % (2 * (observer.result_folder,)))
 
+def log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score):
+        log.write("{},".format(budget))
+        log.write("{},{},".format(population_size, population_limit))
+        log.write("{},{},".format(tournament_size, tournament_number))
+        log.write("{},{},".format(winner_count,  looser_count))
+        log.write("{},{},{},".format(mu, sigma, local_optimizer_num))
+        log.write("{}\n".format(score))
+
+def tests(budget, max_runs, current_batch, number_of_batches):
+    log = open("reultlog.csv", 'a+')
+    population_size = 200
+    population_limit = 200
+    tournament_size = 15
+    tournament_number = 10
+    winner_count = 2
+    looser_count = 2
+    mu = 0.0
+    sigma = 1.0
+    local_optimizer_num = 1
+    
+    #Population size test
+    for p in [50, 100, 200, 500, 1000]:
+        population_size = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+    #population limit test
+    for p in [50, 100, 200, 500, 1000]:
+        population_limit = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+    #tournament size test
+    for p in [1,  5,  10,  20,  50]:
+        tournament_size = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+    
+    #tournament number test
+    for p in [1,  3,  5,  10]:
+        tournament_number = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+    
+    
+    #winner count test
+    for p in [1,  3,  5]:
+        winner_count = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+
+    #looser count test
+    for p in [1,  3,  5]:
+        looser_count = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+    #sigma test
+    for p in [0.05,  0.1,  0.2,  0.5]:
+        sigma = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
+    #local optimizer count test
+    for p in [1,  5,  10]:
+        local_optimizer_num = p
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        main(budget, max_runs, current_batch, number_of_batches)
+        score = get_num_success()/get_num_tries()
+        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+
 # ===============================================
 if __name__ == '__main__':
     """read input parameters and call `main()`"""
@@ -277,4 +364,5 @@ if __name__ == '__main__':
             for i in range(5, len(sys.argv))]
         messages.append('See "python example_experiment.py -h" for help.')
         raise ValueError('\n'.join(messages))
-    main(budget, max_runs, current_batch, number_of_batches)
+#    main(budget, max_runs, current_batch, number_of_batches)
+    tests(budget, max_runs, current_batch, number_of_batches)
