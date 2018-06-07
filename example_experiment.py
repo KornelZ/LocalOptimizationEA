@@ -297,7 +297,7 @@ def tests(budget, max_runs, current_batch, number_of_batches):
     
     #tournament size test
     tmp = tournament_size
-    for p in [1,  5,  10,  20,  50]:
+    for p in [2,  5,  10,  20,  50]:
         tournament_size = p
         set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
