@@ -264,9 +264,9 @@ def log_result(log,  budget,  population_size,  population_limit,  tournament_si
         log.write("{}\n".format(score))
 
 def tests(budget, max_runs, current_batch, number_of_batches):
-    log = open("reultlog.csv", 'w')
-    population_size = 200
-    population_limit = 200
+    log = open("reultlog4.csv", 'w')
+    population_size = 1000
+    population_limit = 10000
     tournament_size = 15
     tournament_number = 10
     winner_count = 2
@@ -337,7 +337,7 @@ def tests(budget, max_runs, current_batch, number_of_batches):
 
     #sigma test
     tmp = sigma
-    for p in [0.05,  0.1,  0.2,  0.5]:
+    for p in [0.8,  1,  1.5,  2,  3]:
         sigma = p
         set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)

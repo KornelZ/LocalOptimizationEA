@@ -75,9 +75,9 @@ def random_search(fun, lbounds, ubounds, budget):
     population_number = 0
     X = lbounds + (ubounds - lbounds) * generate_population(population_size, dim)
 
-    while budget > 0 and population_number < population_limit:
+    while population_number < population_limit:
         for i in range(tournament_number):
-            if budget <= 0 or fun.final_target_hit == 1:
+            if fun.final_target_hit == 1:
                 break
             T = []
             I = []
@@ -88,7 +88,7 @@ def random_search(fun, lbounds, ubounds, budget):
             T = np.asarray(T)
             F = np.apply_along_axis(fun, 1, T)
             budget -= tournament_size
-            if budget <= 0 or fun.final_target_hit == 1:
+            if fun.final_target_hit == 1:
                 break
             I_and_F = sorted(zip(I, F), key=lambda x: x[1])
             x_min = X[I_and_F[0][0]]
