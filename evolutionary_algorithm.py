@@ -68,5 +68,6 @@ def random_search(fun, lbounds, ubounds, budget):
             break
 
     log.write("Best target reached {}\n".format(fun.final_target_hit))
+    print("{}\n".format("Success" if fun.final_target_hit == 1 else "Fail"))
     log.close()
     return x_min
