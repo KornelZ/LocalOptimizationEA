@@ -255,7 +255,8 @@ def main(budget=budget,
           '    cocopp.main("%s") \n'
           'from a python shell' % (2 * (observer.result_folder,)))
 
-def log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score):
+def log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score):
+    with open("result.csv", "a+") as log:
         log.write("{},".format(budget))
         log.write("{},{},".format(population_size, population_limit))
         log.write("{},{},".format(tournament_size, tournament_number))
@@ -264,7 +265,6 @@ def log_result(log,  budget,  population_size,  population_limit,  tournament_si
         log.write("{}\n".format(score))
 
 def tests(budget, max_runs, current_batch, number_of_batches):
-    log = open("reultlog.csv", 'w')
     population_size = 200
     population_limit = 200
     tournament_size = 15
@@ -274,85 +274,89 @@ def tests(budget, max_runs, current_batch, number_of_batches):
     mu = 0.0
     sigma = 1.0
     local_optimizer_num = 1
-    
-    #Population size test
-    tmp = population_size 
-    for p in [50, 100, 200, 500, 1000]:
-        population_size = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
-        main(budget, max_runs, current_batch, number_of_batches)
-        score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
-    population_size = tmp
-    
+
     #population limit test
-    tmp = population_limit 
-    for p in [50, 100, 200, 500, 1000]:
+    tmp = population_limit
+    for p in [200, 500, 1000]:
         population_limit = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number,
+                       winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number,
+                   winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
     population_limit = tmp
     
     #tournament size test
     tmp = tournament_size
-    for p in [2,  5,  10,  20,  50]:
+    for p in [10,  20,  50]:
         tournament_size = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     tournament_size = tmp
     
     #tournament number test
-    tmp = tournament_number 
-    for p in [1,  3,  5,  10]:
+    tmp = tournament_number
+    for p in [1,  3,  5]:
         tournament_number = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     tournament_number = tmp
-    
+
     #winner count test
     tmp = winner_count
     for p in [1,  3,  5]:
         winner_count = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     winner_count = tmp
 
     #looser count test
     tmp = looser_count
     for p in [1,  3,  5]:
         looser_count = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     looser_count = tmp
 
     #sigma test
     tmp = sigma
-    for p in [0.05,  0.1,  0.2,  0.5]:
+    for p in [0.05,  0.1,  0.25]:
         sigma = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     sigma = tmp
     
     #local optimizer count test
     tmp = local_optimizer_num
     for p in [1,  5,  10]:
         local_optimizer_num = p
-        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num)
+        set_parameters(population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                       looser_count,  sigma,  mu,  local_optimizer_num)
         main(budget, max_runs, current_batch, number_of_batches)
         score = get_num_success()/get_num_tries()
-        log_result(log,  budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,  looser_count,  sigma,  mu,  local_optimizer_num,  score)
+        log_result(budget,  population_size,  population_limit,  tournament_size,  tournament_number, winner_count,
+                   looser_count,  sigma,  mu,  local_optimizer_num,  score)
     local_optimizer_num = tmp
 
 # ===============================================
@@ -374,8 +378,7 @@ if __name__ == '__main__':
         number_of_batches = int(sys.argv[4])
     if len(sys.argv) > 5:
         messages = ['Argument "%s" disregarded (only 4 arguments are recognized).' % sys.argv[i]
-            for i in range(5, len(sys.argv))]
+        for i in range(5, len(sys.argv))]
         messages.append('See "python example_experiment.py -h" for help.')
         raise ValueError('\n'.join(messages))
-#    main(budget, max_runs, current_batch, number_of_batches)
     tests(budget, max_runs, current_batch, number_of_batches)
